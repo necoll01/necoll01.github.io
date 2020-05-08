@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing page</title>
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+</head>
+<body>
+   
+
+    <div class="container">
+        <nav class="navbar navbar-inverse">
+       
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Our Website</a>
+            </div>
+            <div>
+               <ul class="nav navbar-nav">
+                   <li class="active"><a href="#allstudents">All Advisees</a></li>
+                   <li><a href="#gpa">Grade Point Averages</a></li>
+               </ul>
+            </div>
+            </nav>
+
+<div ng-app="studentApp">
+<div ng-controller = "allCtrl">
+   
+<p><input type="text" ng-model="search_text">Enter Search Text</p>
+   
+<table class="table table-bordered table-striped">
+<tr><!-- headings -->
+<th>sid</th>
+<th>last name</th>
+<th>first name</th>
+<th>credit hrs</th>
+<th>gpa points</th>
+<th>major</th>
+</tr>
+<!-- data -->
+<tr ng-repeat = "student in students | filter:search_text ">
+<th>{{student.id}}</th>
+<th>{{student.last_name}}</th>
+<th>{{student.first_name}}</th>
+<th>{{student.credit_hrs}}</th>
+<th>{{student.gpa_points / student.credit_hrs).toFixed (1)}}</th>  
+<th>{{student.major}}</th>    
+</tr>
+</table>
+   
+ </div>  <!-- end contoller division -->
+</div>
+
+
+<script>
+
+//controller
+var app = angular.module('studentApp', []);
+
+app.controller('allCtrl', function($scope, $http) {
+$http.get("students.json") // get the all students table
+.then(function (response) {
+$scope.students = response.data;
+});
+});
+
+</script>
+
+</body>
+</html>
